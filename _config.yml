@@ -1,0 +1,31 @@
+title: "모던 리뷰 & 정보 블로그"
+description: "제품, 영화, 음식 레시피, 애니메이션 리뷰 및 유용한 지식을 전하는 모던 블로그입니다."
+url: ""
+baseurl: ""
+
+author:
+  name: "리뷰어"
+  email: "reviewer@example.com"
+
+markdown: kramdown
+theme: null
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - README.md
+  - node_modules/
+  - templates/
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"

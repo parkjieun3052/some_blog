@@ -1,0 +1,23 @@
+<header class="site-header">
+  <div class="header-container">
+    <a href="{{ '/' | relative_url }}" class="site-logo">
+      ✨ <span>{{ site.title }}</span>
+    </a>
+
+    <nav aria-label="Main Navigation">
+      <ul class="nav-links">
+        <li><a href="{{ '/' | relative_url }}" class="nav-link">홈</a></li>
+        <li><a href="{{ '/about' | relative_url }}" class="nav-link">소개</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button id="search-open-btn" class="icon-btn" aria-label="Search" title="검색 (Ctrl+K)">
+        🔍
+      </button>
+      <button id="theme-toggle-btn" class="icon-btn" aria-label="Toggle theme">
+        🌙
+      </button>
+    </div>
+  </div>
+</header>

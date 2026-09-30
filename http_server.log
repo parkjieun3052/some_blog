@@ -1,0 +1,8 @@
+127.0.0.1 - - [30/Sep/2026 09:55:05] "HEAD / HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 09:56:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 09:56:00] "GET /assets/css/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 09:56:00] "GET /assets/js/main.js HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 09:56:01] "GET /2025/01/15/macbook-pro-m4-review.html HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 09:56:02] "GET /2025/01/16/dune-part-2-review.html HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 09:56:02] "GET /2025/01/17/quick-pasta-recipe.html HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2026 09:56:03] "GET /2025/01/18/frieren-anime-review.html HTTP/1.1" 200 -

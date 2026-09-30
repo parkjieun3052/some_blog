@@ -1,0 +1,167 @@
+---
+layout: default
+---
+
+<article class="post-detail-container">
+  {% assign post_type = page.type | default: "general" %}
+
+  <header class="post-header">
+    <span class="post-card-type-badge badge-{{ post_type }}" style="display:inline-block; margin-bottom: 0.8rem; font-size: 0.85rem; padding: 0.3rem 0.85rem;">
+      {% if post_type == "product" %}📱 제품 리뷰
+      {% elsif post_type == "movie" %}🎬 영화 한줄평
+      {% elsif post_type == "food" %}🍳 음식 레시피
+      {% elsif post_type == "anime" %}✨ 애니메이션
+      {% else %}📝 일반
+      {% endif %}
+    </span>
+
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    <div class="post-meta-details">
+      <time datetime="{{ page.date | date_to_xmlschema }}">📅 {{ page.date | date: "%Y년 %m월 %d일" }}</time>
+      {% assign words = content | strip_html | number_of_words %}
+      {% assign read_time = words | divided_by: 180 | plus: 1 %}
+      <span>⏱️ 약 {{ read_time }}분 소요</span>
+      {% if page.author %}
+        <span>✍️ {{ page.author }}</span>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-body-content">
+
+    {% comment %} === 1. PRODUCT REVIEW COMPONENT === {% endcomment %}
+    {% if post_type == "product" %}
+      <div class="product-review-box">
+        <div class="product-review-header">
+          <div>
+            <h3 style="font-size:1.3rem; font-weight:800; color:var(--text-primary); margin-bottom:0.2rem;">
+              {{ page.product_name | default: page.title }}
+            </h3>
+            {% if page.price %}
+              <div style="color:var(--text-secondary); font-size:0.95rem;">💰 정가 / 구매가: {{ page.price }}</div>
+            {% endif %}
+          </div>
+          {% if page.rating %}
+            <div class="product-score-badge">
+              <span>★</span> {{ page.rating }} / 5.0
+            </div>
+          {% endif %}
+        </div>
+
+        {% if page.pros or page.cons %}
+          <div class="product-pros-cons">
+            {% if page.pros %}
+              <div class="pros-card">
+                <h4>👍 추천 이유 (Pros)</h4>
+                <ul style="padding-left: 1.2rem; margin-bottom: 0;">
+                  {% for pro in page.pros %}
+                    <li>{{ pro }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+
+            {% if page.cons %}
+              <div class="cons-card">
+                <h4>👎 아쉬운 점 (Cons)</h4>
+                <ul style="padding-left: 1.2rem; margin-bottom: 0;">
+                  {% for con in page.cons %}
+                    <li>{{ con }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} === 2. MOVIE REVIEW COMPONENT === {% endcomment %}
+    {% if post_type == "movie" %}
+      {% if page.one_line_review %}
+        <div class="movie-one-line-callout">
+          <div style="font-size:0.85rem; text-transform:uppercase; font-weight:700; color:var(--cat-movie); letter-spacing:1px; margin-bottom:0.5rem;">
+            🎬 한줄평 (One-Line Review)
+          </div>
+          <div class="movie-one-line-quote">
+            "{{ page.one_line_review }}"
+          </div>
+          <div class="movie-meta-bar">
+            {% if page.director %}<span>🎥 감독: {{ page.director }}</span>{% endif %}
+            {% if page.genre %}<span>🍿 장르: {{ page.genre }}</span>{% endif %}
+            {% if page.rating %}<span>⭐ 평점: {{ page.rating }} / 5.0</span>{% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% comment %} === 3. FOOD REVIEW / RECIPE COMPONENT === {% endcomment %}
+    {% if post_type == "food" %}
+      <div class="recipe-card-box">
+        <div class="recipe-title">
+          🍳 {{ page.dish_name | default: "특별 레시피 정보" }}
+        </div>
+
+        <div class="recipe-info-grid">
+          <div class="recipe-info-item">
+            <strong>준비 시간</strong>
+            {{ page.prep_time | default: '10분' }}
+          </div>
+          <div class="recipe-info-item">
+            <strong>조리 시간</strong>
+            {{ page.cook_time | default: '15분' }}
+          </div>
+          <div class="recipe-info-item">
+            <strong>난이도</strong>
+            {{ page.difficulty | default: '쉬움' }}
+          </div>
+        </div>
+
+        {% if page.ingredients %}
+          <div style="font-weight:700; margin-bottom:0.6rem; color:var(--text-primary);">🥗 필요 재료:</div>
+          <ul class="recipe-ingredients-list">
+            {% for ingredient in page.ingredients %}
+              <li>✔️ {{ ingredient }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} === 4. ANIME REVIEW VIBRANT COMPONENT === {% endcomment %}
+    {% if post_type == "anime" %}
+      <div class="anime-vibrant-hero">
+        <div class="anime-vibrant-title">✨ {{ page.anime_title | default: page.title }}</div>
+        <div style="font-size:0.95rem; opacity:0.9;">
+          {% if page.studio %}🏢 제작사: {{ page.studio }} | {% endif %}
+          {% if page.episodes %}📺 회차: {{ page.episodes }} | {% endif %}
+          {% if page.score %}🔥 평가: {{ page.score }} / 10{% endif %}
+        </div>
+
+        {% if page.genres %}
+          <div class="anime-tag-pills">
+            {% for g in page.genres %}
+              <span class="anime-pill">#{{ g }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% comment %} Main Markdown Post Content {% endcomment %}
+    {{ content }}
+
+    {% if page.tags %}
+      <div style="margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--border-color); display:flex; gap:0.5rem; flex-wrap:wrap;">
+        <span style="color:var(--text-muted); font-size:0.9rem; align-self:center;">태그:</span>
+        {% for tag in page.tags %}
+          <span style="background-color:var(--bg-primary); padding:0.25rem 0.65rem; border-radius:15px; font-size:0.82rem; color:var(--text-secondary); border:1px solid var(--border-color);">
+            #{{ tag }}
+          </span>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</article>

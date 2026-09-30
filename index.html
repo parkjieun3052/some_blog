@@ -1,0 +1,84 @@
+---
+layout: default
+---
+
+<section class="hero-banner">
+  <h1 class="hero-title">직장인을 위한 3분 스마트 리딩 ⚡</h1>
+  <p class="hero-subtitle">업무 시간 틈틈이 빠르게 보는 최신 IT 제품 리뷰, 영화 한줄평, 간단 레시피, 애니메이션 추천</p>
+
+  <div class="category-filter-bar">
+    <button class="filter-chip active" data-category="all">전체보기</button>
+    <button class="filter-chip" data-category="product">💻 제품 리뷰</button>
+    <button class="filter-chip" data-category="movie">🎬 영화 한줄평</button>
+    <button class="filter-chip" data-category="food">🍳 레시피 정보</button>
+    <button class="filter-chip" data-category="anime">✨ 애니 리뷰</button>
+    <button class="filter-chip" data-category="general">📝 일반 포스트</button>
+  </div>
+</section>
+
+<div class="posts-grid">
+  {% for post in site.posts %}
+    {% assign post_type = post.type | default: "general" %}
+    <article class="post-card" data-category="{{ post_type }}">
+      <div class="post-card-banner">
+        {% if post.cover_emoji %}
+          {{ post.cover_emoji }}
+        {% elsif post_type == "product" %}
+          📱
+        {% elsif post_type == "movie" %}
+          🎬
+        {% elsif post_type == "food" %}
+          🍲
+        {% elsif post_type == "anime" %}
+          ✨
+        {% else %}
+          📑
+        {% endif %}
+
+        <span class="post-card-type-badge badge-{{ post_type }}">
+          {% if post_type == "product" %}제품
+          {% elsif post_type == "movie" %}영화
+          {% elsif post_type == "food" %}음식
+          {% elsif post_type == "anime" %}애니
+          {% else %}일반
+          {% endif %}
+        </span>
+      </div>
+
+      <div class="post-card-body">
+        <div class="post-card-meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y.%m.%d" }}</time>
+          {% assign words = post.content | strip_html | number_of_words %}
+          {% assign read_time = words | divided_by: 180 | plus: 1 %}
+          <span>• 읽기 {{ read_time }}분</span>
+        </div>
+
+        <h2 class="post-card-title">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h2>
+
+        {% if post_type == "product" and post.rating %}
+          <div class="card-rating-stars">
+            ★ {{ post.rating }} / 5.0
+          </div>
+        {% elsif post_type == "movie" and post.one_line_review %}
+          <div class="card-movie-quote">
+            "{{ post.one_line_review | truncate: 45 }}"
+          </div>
+        {% elsif post_type == "food" and post.prep_time %}
+          <div style="font-size:0.85rem; color:var(--cat-food); font-weight:600; margin-bottom:0.5rem;">
+            ⏱️ 준비시간 {{ post.prep_time }} | 난이도 {{ post.difficulty | default: '보통' }}
+          </div>
+        {% elsif post_type == "anime" and post.score %}
+          <div style="font-size:0.85rem; color:var(--cat-anime); font-weight:700; margin-bottom:0.5rem;">
+            🔥 몰입도 {{ post.score }} / 10
+          </div>
+        {% endif %}
+
+        <p class="post-card-excerpt">
+          {{ post.excerpt | strip_html | truncate: 110 }}
+        </p>
+      </div>
+    </article>
+  {% endfor %}
+</div>
